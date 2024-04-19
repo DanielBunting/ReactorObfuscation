@@ -10,6 +10,9 @@ inputs:
   output_path:
     description: 'Output path for the obfuscated .NET assembly.'
     required: true
+  license_file:
+    description: 'Path to the license file.'
+    required: true 
 
 runs:
   using: "composite"
@@ -33,10 +36,12 @@ runs:
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
           powershell -Command "if (-Not (Test-Path './dotnet-reactor/dotNET_Reactor.Console.exe')) { Expand-Archive 'dotNetReactor.zip' -DestinationPath './dotnet-reactor' }"
+          powershell -Command "Copy-Item '${{ inputs.license_file }}' -Destination './dotnet-reactor/'"
         elif [ "${{ runner.os }}" = "Linux" ] || [ "${{ runner.os }}" = "macOS" ]; then
-          if [ ! -f "./dotnet-reactor/dotNET_Reactor" ] || [ ! -f "./dotnet-reactor/dotNET_Reactor" ]; then
+          if [ ! -f "./dotnet-reactor/dotNET_Reactor" ]; then
             unzip dotNetReactor.zip -d dotnet-reactor
           fi
+          cp "${{ inputs.license_file }}" ./dotnet-reactor/
         fi
       shell: bash
 

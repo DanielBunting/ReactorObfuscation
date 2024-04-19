@@ -41,7 +41,7 @@ runs:
           if [ ! -f "./dotnet-reactor/dotNET_Reactor" ]; then
             unzip dotNetReactor.zip -d dotnet-reactor
           fi
-          cp "${{ inputs.license_file }}" ./dotnet-reactor/
+          cp "$GITHUB_WORKSPACE/${{ inputs.license_file }}" ./dotnet-reactor/
         fi
       shell: bash
 

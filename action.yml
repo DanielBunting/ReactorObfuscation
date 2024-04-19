@@ -12,7 +12,7 @@ inputs:
     required: true
   license_file:
     description: 'Path to the license file.'
-    required: true 
+    required: true
 
 runs:
   using: "composite"
@@ -36,7 +36,7 @@ runs:
       run: |
         if [ "${{ runner.os }}" = "Windows" ]; then
           powershell -Command "if (-Not (Test-Path './dotnet-reactor/dotNET_Reactor.Console.exe')) { Expand-Archive 'dotNetReactor.zip' -DestinationPath './dotnet-reactor' }"
-          powershell -Command "Copy-Item '${{ inputs.license_file }}' -Destination './dotnet-reactor/'"
+          powershell -Command "Copy-Item '$GITHUB_WORKSPACE/${{ inputs.license_file }}' -Destination './dotnet-reactor/'"
         elif [ "${{ runner.os }}" = "Linux" ] || [ "${{ runner.os }}" = "macOS" ]; then
           if [ ! -f "./dotnet-reactor/dotNET_Reactor" ]; then
             unzip dotNetReactor.zip -d dotnet-reactor
